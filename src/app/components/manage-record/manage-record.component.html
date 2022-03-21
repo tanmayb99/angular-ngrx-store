@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+     {{currentRecordId ? 'Edit' : 'Add'}} record
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="ion-text-center ion-padding">
+    <form [formGroup]="recordForm">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Account holder name</ion-label>
+          <ion-input type="text" formControlName="accountHolder"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">IBAN Code</ion-label>
+          <ion-input type="text" formControlName="iban"></ion-input>
+        </ion-item>
+        <div class="iban-number ion-padding-start">
+          <small *ngIf="recordForm.get('iban').errors && recordForm.get('iban').errors.ibanInvalid">
+            <span *ngIf="recordForm.get('iban').errors.error.countryUnsupported">
+              Country not supported
+            </span>
+            <span *ngIf="recordForm.get('iban').errors.error.codeLengthInvalid">
+              IBAN Code length is invalid
+            </span>
+            <span *ngIf="recordForm.get('iban').errors.error.patternInvalid">
+              IBAN Code pattern is invalid
+            </span>
+          </small>
+        </div>
+        <ion-item>
+          <ion-label position="stacked">Amount</ion-label>
+          <ion-input type="number" min="50" max="20,000,000" formControlName="amount"></ion-input>
+          <ion-note slot="error" *ngIf="recordForm?.get('amount').dirty">Enter valid amount</ion-note>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label position="stacked">Date</ion-label>
+          <ion-datetime class="ion-margin-top" presentation="date" locale="de" formControlName="date"></ion-datetime>
+        </ion-item>̦
+        <ion-item>
+          <ion-label position="stacked">Note</ion-label>
+          <ion-input type="text" formControlName="note"></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button class="ion-margin-top" expand="block" (click)="submit()">
+        Submit
+      </ion-button>
+    </form>
+  </div>
+</ion-content>
